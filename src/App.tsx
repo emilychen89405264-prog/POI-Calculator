@@ -144,10 +144,10 @@ export default function App() {
         <div className="flex flex-col gap-8">
           <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent italic">
-                Advanced Re-Join Calculator
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent italic">
+                POI Calculator
               </h1>
-              <p className="text-white/40 text-[10px] tracking-widest uppercase font-medium">業務權益恢復試算系統 - 身份與活動雙軌版</p>
+              <p className="text-white/40 text-[12px] tracking-widest uppercase font-medium">POI Calculator</p>
             </div>
           </header>
 
@@ -156,22 +156,22 @@ export default function App() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
-                  <h2 className="text-xs font-bold text-indigo-300 uppercase tracking-widest">原始身份 & 轉換</h2>
+                  <h2 className="text-lg font-bold text-indigo-300 uppercase tracking-widest">1st ID & 轉換</h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] text-white/30 uppercase font-bold tracking-tighter">會員身份轉換?</span>
+                  <span className="text-[12px] text-white/30 uppercase font-bold tracking-tighter">會員身份轉換?</span>
                   <button 
                     onClick={() => setIsConversionMode(!isConversionMode)}
                     className={`relative w-10 h-5 rounded-full transition-colors ${isConversionMode ? 'bg-indigo-500' : 'bg-white/10'}`}
                   >
                     <motion.div animate={{ x: isConversionMode ? 20 : 2 }} className="absolute top-1 left-3 w-3 h-3 bg-white rounded-full shadow-sm" />
                   </button>
-                  <span className="text-[9px] font-bold text-indigo-300">{isConversionMode ? 'YES' : 'NO'}</span>
+                  <span className="text-[12px] font-bold text-indigo-300">{isConversionMode ? 'YES' : 'NO'}</span>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <label className="text-[10px] font-semibold text-white/50 uppercase tracking-wider ml-1">原本位階 (Original Rank)</label>
+                <label className="text-[12px] font-semibold text-white/50 uppercase tracking-wider ml-1">1st ID Team</label>
                 <div className="relative group">
                   <select 
                     value={originalRank}
@@ -189,7 +189,7 @@ export default function App() {
               <AnimatePresence>
                 {isConversionMode && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="space-y-3 border-l-2 border-fuchsia-500/30 pl-4 mt-2">
-                    <label className="text-[10px] font-semibold text-fuchsia-300 uppercase tracking-wider ml-1">身份轉換日期 (Resignation Date)</label>
+                    <label className="text-[12px] font-semibold text-fuchsia-300 uppercase tracking-wider ml-1">身份轉換日期 (Resignation Date)</label>
                     <div className="relative group">
                       <input type="date" value={conversionDate} onChange={(e) => setConversionDate(e.target.value)} className="w-full bg-fuchsia-500/5 border border-fuchsia-500/20 rounded-2xl px-5 py-4 focus:outline-none focus:border-fuchsia-400 transition-colors text-lg text-white appearance-none" />
                       <ArrowLeftRight className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-fuchsia-400/30 group-focus-within:text-fuchsia-400 transition-colors pointer-events-none" />
@@ -201,8 +201,8 @@ export default function App() {
               <div className="h-px w-full bg-white/5 my-4"></div>
 
               <div className="space-y-3">
-                <label className="text-[10px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
-                  <ShieldCheck className="w-3 h-3" /> 二次加入日期 (ID2 Join Date)
+                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
+                  <ShieldCheck className="w-3 h-3" /> 2nd ID App. date
                 </label>
                 <div className="relative group">
                   <input type="date" value={secondIdJoinDate} onChange={(e) => setSecondIdJoinDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
@@ -211,8 +211,8 @@ export default function App() {
               </div>
 
               <div className="space-y-3">
-                <label className="text-[10px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
-                  <TrendingUp className="w-3 h-3" /> 第二ID最後一次業務活動日期 (ID2 Last Activity)
+                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
+                  <TrendingUp className="w-3 h-3" /> 2nd ID last activity date
                 </label>
                 <div className="relative group">
                   <input type="date" value={secondIdLastActivityDate} onChange={(e) => setSecondIdLastActivityDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
@@ -223,7 +223,7 @@ export default function App() {
               {!isConversionMode && (
                 <>
                   <div className="space-y-3 pt-2">
-                    <label className="text-[10px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">第二個ID目前位階 (ID2 Current Rank)</label>
+                    <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">2nd ID team</label>
                     <div className="relative group">
                       <select value={secondIdRank} onChange={(e) => setSecondIdRank(e.target.value as Rank)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
                         <option value={Rank.SUPERVISOR} className="bg-slate-900">督導及以下 (DS)</option>
@@ -236,8 +236,8 @@ export default function App() {
 
                   <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 mt-2">
                     <div className="flex flex-col">
-                      <label className="text-[10px] font-bold text-emerald-400/70 uppercase tracking-wider">H&W Realign</label>
-                      <span className="text-[8px] text-emerald-400/50">重新對齊夫妻等候期</span>
+                      <label className="text-[12px] font-bold text-emerald-400/70 uppercase tracking-wider">H&W Realign</label>
+                      <span className="text-[12px] text-emerald-400/50">重新對齊夫妻等候期</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <button 
@@ -246,7 +246,7 @@ export default function App() {
                       >
                         <motion.div animate={{ x: hwRealign ? 20 : 2 }} className="absolute top-1 left-[2px] w-3 h-3 bg-white rounded-full shadow-sm" />
                       </button>
-                      <span className="text-[9px] font-bold text-emerald-300 w-6">{hwRealign ? 'YES' : 'NO'}</span>
+                      <span className="text-[12px] font-bold text-emerald-300 w-6">{hwRealign ? 'YES' : 'NO'}</span>
                     </div>
                   </div>
                 </>
@@ -256,26 +256,26 @@ export default function App() {
             <div className="space-y-6">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></div>
-                <h2 className="text-xs font-bold text-fuchsia-300 uppercase tracking-widest">業務行為與目標</h2>
+                <h2 className="text-sm font-bold text-fuchsia-300 uppercase tracking-widest">Activity</h2>
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[9px] font-medium text-white/40 uppercase tracking-widest px-1">1. APF Due Date</label>
+                  <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">1. APF Due Date</label>
                   <div className="relative">
                     <input type="date" value={apfDueDate} onChange={e => setApfDueDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
                     <CreditCard className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-medium text-white/40 uppercase tracking-widest px-1">2. Order Date</label>
+                  <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">2. Order Date</label>
                   <div className="relative">
                     <input type="date" value={lastOrderDate} onChange={e => setLastOrderDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
                     <ShoppingCart className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-medium text-white/40 uppercase tracking-widest px-1">3. Earning Date</label>
+                  <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">3. Earning Date</label>
                   <div className="relative">
                     <input type="date" value={lastEarningDate} onChange={e => setLastEarningDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
                     <TrendingUp className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
@@ -313,7 +313,7 @@ export default function App() {
                 <>
                   <div className="space-y-6 w-full">
                     <div className="space-y-2">
-                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">最終符合重新加入資格日期 (ID1)</span>
+                      <span className="text-[12px] font-bold text-white/40 uppercase tracking-[0.3em]">最終符合重新加入資格日期 (ID1)</span>
                       <div className="flex items-baseline gap-2 sm:gap-4 flex-wrap justify-center font-mono text-white">
                         <span className="text-5xl sm:text-7xl font-black tracking-tighter">{calculationResult.reEntryDate.split('-')[0]}</span>
                         <span className="text-3xl sm:text-5xl font-light text-white/60">/</span>
@@ -325,9 +325,9 @@ export default function App() {
                   </div>
 
                   <div className="flex flex-col gap-3 items-center w-full">
-                    <div className={`px-5 py-2 rounded-full border text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${calculationResult.sourceTimeline === 'activity' ? 'bg-fuchsia-500/20 border-fuchsia-500/40 text-fuchsia-200' : 'bg-indigo-500/20 border-indigo-500/40 text-indigo-200'}`}>
+                    <div className={`px-5 py-2 rounded-full border text-[12px] font-bold uppercase tracking-wider flex items-center gap-2 ${calculationResult.sourceTimeline === 'activity' ? 'bg-fuchsia-500/20 border-fuchsia-500/40 text-fuchsia-200' : 'bg-indigo-500/20 border-indigo-500/40 text-indigo-200'}`}>
                       {calculationResult.sourceTimeline === 'activity' ? <AlertCircle className="w-3.5 h-3.5" /> : <ArrowLeftRight className="w-3.5 h-3.5" />}
-                      {calculationResult.sourceTimeline === 'activity' ? '活動行為端' : '身份轉換端'}
+                      {calculationResult.sourceTimeline === 'activity' ? '無身份轉換' : '身份轉換'}
                     </div>
 
                     {secondIdJoinDate && (
@@ -340,25 +340,12 @@ export default function App() {
                         </div>
                         {calculationResult.complianceStatus === 'violation' && calculationResult.caseClosedReEntryDate && (
                           <div className="mt-2 text-center w-full bg-black/20 rounded-xl p-3 border border-red-500/20">
-                             <div className="text-[10px] uppercase font-bold tracking-widest text-red-300/80 mb-1">結案後可重新加入日期</div>
+                             <div className="text-[12px] uppercase font-bold tracking-widest text-red-300/80 mb-1">結案後可重新加入日期</div>
                              <div className="text-xl font-mono font-bold text-red-200">{calculationResult.caseClosedReEntryDate}</div>
                           </div>
                         )}
                       </motion.div>
                     )}
-
-                    <div className="grid grid-cols-2 gap-4 w-full max-w-sm pt-2">
-                      <div className={`p-4 rounded-2xl border text-center transition-all ${calculationResult.sourceTimeline === 'activity' ? 'bg-white/10 border-white/20 scale-105' : 'opacity-40 border-white/5'}`}>
-                        <div className="text-[8px] text-white/40 uppercase font-bold mb-1">活動端 ({calculationResult.activityWaitLabel})</div>
-                        <div className="text-sm font-mono font-bold text-white/80">{calculationResult.activityReEntry}</div>
-                      </div>
-                      {isConversionMode && (
-                        <div className={`p-4 rounded-2xl border text-center transition-all ${calculationResult.sourceTimeline === 'conversion' ? 'bg-white/10 border-white/20 scale-105' : 'opacity-40 border-white/5'}`}>
-                          <div className="text-[8px] text-white/40 uppercase font-bold mb-1">轉換端 ({calculationResult.conversionWaitLabel})</div>
-                          <div className="text-sm font-mono font-bold text-white/80">{calculationResult.conversionReEntry}</div>
-                        </div>
-                      )}
-                    </div>
                   </div>
 
                   <div className="flex items-start gap-2 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 max-w-xl text-left">
@@ -372,7 +359,7 @@ export default function App() {
               ) : (
                 <div className="flex flex-col items-center gap-3 opacity-30">
                   <AlertCircle className="w-12 h-12" />
-                  <p className="text-xs uppercase tracking-widest">請輸入業務或轉換日期</p>
+                  <p className="text-sm uppercase tracking-widest">請輸入業務或轉換日期</p>
                 </div>
               )}
             </motion.div>
@@ -397,7 +384,7 @@ export default function App() {
                 setHwRealign(false);
                 setSecondIdRank(Rank.SUPERVISOR);
               }}
-              className="px-8 py-4 bg-white text-slate-900 font-black rounded-2xl hover:bg-white/90 transition-all text-xs uppercase tracking-[0.2em] shadow-lg active:scale-95"
+              className="px-8 py-4 bg-white text-slate-900 font-black rounded-2xl hover:bg-white/90 transition-all text-sm uppercase tracking-[0.2em] shadow-lg active:scale-95"
             >
               Reset Data
             </button>
