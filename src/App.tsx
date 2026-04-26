@@ -151,7 +151,8 @@ export default function App() {
             </div>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left Column: 1st ID Fields */}
             <div className="space-y-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -188,11 +189,20 @@ export default function App() {
 
               <AnimatePresence>
                 {isConversionMode && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="space-y-3 border-l-2 border-fuchsia-500/30 pl-4 mt-2">
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="space-y-3 border-l-2 border-fuchsia-500/30 pl-4 mt-2 overflow-hidden">
                     <label className="text-[12px] font-semibold text-fuchsia-300 uppercase tracking-wider ml-1">身份轉換日期 (Resignation Date)</label>
-                    <div className="relative group">
+                    <div className="relative group pb-4">
                       <input type="date" value={conversionDate} onChange={(e) => setConversionDate(e.target.value)} className="w-full bg-fuchsia-500/5 border border-fuchsia-500/20 rounded-2xl px-5 py-4 focus:outline-none focus:border-fuchsia-400 transition-colors text-lg text-white appearance-none" />
-                      <ArrowLeftRight className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-fuchsia-400/30 group-focus-within:text-fuchsia-400 transition-colors pointer-events-none" />
+                      <ArrowLeftRight className="absolute right-5 top-4 w-5 h-5 text-fuchsia-400/30 group-focus-within:text-fuchsia-400 transition-colors pointer-events-none" />
+                    </div>
+                    <label className="text-[12px] font-semibold text-fuchsia-300 uppercase tracking-wider ml-1">目標重入位階 (Target Rank)</label>
+                    <div className="relative group mt-2">
+                      <select value={targetRank} onChange={(e) => setTargetRank(e.target.value as Rank)} className="w-full bg-fuchsia-500/5 border border-fuchsia-500/20 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-fuchsia-400 transition-colors text-lg text-white cursor-pointer">
+                        <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">成為 優惠顧客 (PC)</option>
+                        <option value={Rank.SUPERVISOR} className="bg-slate-900">成為 督導等級 (DS)</option>
+                        <option value={Rank.WORLD_TEAM} className="bg-slate-900">成為 世界組等級 (WT)</option>
+                      </select>
+                      <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-fuchsia-400/30 rotate-90 pointer-events-none" />
                     </div>
                   </motion.div>
                 )}
@@ -200,60 +210,6 @@ export default function App() {
 
               <div className="h-px w-full bg-white/5 my-4"></div>
 
-              <div className="space-y-3">
-                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
-                  <ShieldCheck className="w-3 h-3" /> 2nd ID App. date
-                </label>
-                <div className="relative group">
-                  <input type="date" value={secondIdJoinDate} onChange={(e) => setSecondIdJoinDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
-                  <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-400/30" />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
-                  <TrendingUp className="w-3 h-3" /> 2nd ID last activity date
-                </label>
-                <div className="relative group">
-                  <input type="date" value={secondIdLastActivityDate} onChange={(e) => setSecondIdLastActivityDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
-                  <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-400/30" />
-                </div>
-              </div>
-
-              {!isConversionMode && (
-                <>
-                  <div className="space-y-3 pt-2">
-                    <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">2nd ID team</label>
-                    <div className="relative group">
-                      <select value={secondIdRank} onChange={(e) => setSecondIdRank(e.target.value as Rank)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
-                        <option value={Rank.SUPERVISOR} className="bg-slate-900">督導及以下 (DS)</option>
-                        <option value={Rank.WORLD_TEAM} className="bg-slate-900">世界組及以上 (WT)</option>
-                        <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">優惠顧客 (PC)</option>
-                      </select>
-                      <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400/30 rotate-90 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 mt-2">
-                    <div className="flex flex-col">
-                      <label className="text-[12px] font-bold text-emerald-400/70 uppercase tracking-wider">H&W Realign</label>
-                      <span className="text-[12px] text-emerald-400/50">重新對齊夫妻等候期</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={() => setHwRealign(!hwRealign)}
-                        className={`relative w-10 h-5 rounded-full transition-colors ${hwRealign ? 'bg-emerald-500' : 'bg-black/20'}`}
-                      >
-                        <motion.div animate={{ x: hwRealign ? 20 : 2 }} className="absolute top-1 left-[2px] w-3 h-3 bg-white rounded-full shadow-sm" />
-                      </button>
-                      <span className="text-[12px] font-bold text-emerald-300 w-6">{hwRealign ? 'YES' : 'NO'}</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div className="space-y-6">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></div>
                 <h2 className="text-sm font-bold text-fuchsia-300 uppercase tracking-widest">Activity</h2>
@@ -263,39 +219,85 @@ export default function App() {
                 <div className="space-y-2">
                   <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">1. APF Due Date</label>
                   <div className="relative">
-                    <input type="date" value={apfDueDate} onChange={e => setApfDueDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
-                    <CreditCard className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
+                    <input type="date" value={apfDueDate} onChange={e => setApfDueDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white appearance-none" />
+                    <CreditCard className="absolute right-4 top-3.5 w-4 h-4 text-white/20 pointer-events-none" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">2. Order Date</label>
                   <div className="relative">
-                    <input type="date" value={lastOrderDate} onChange={e => setLastOrderDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
-                    <ShoppingCart className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
+                    <input type="date" value={lastOrderDate} onChange={e => setLastOrderDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white appearance-none" />
+                    <ShoppingCart className="absolute right-4 top-3.5 w-4 h-4 text-white/20 pointer-events-none" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-[12px] font-medium text-white/40 uppercase tracking-widest px-1">3. Earning Date</label>
                   <div className="relative">
-                    <input type="date" value={lastEarningDate} onChange={e => setLastEarningDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white" />
-                    <TrendingUp className="absolute right-4 top-3.5 w-4 h-4 text-white/20" />
+                    <input type="date" value={lastEarningDate} onChange={e => setLastEarningDate(e.target.value)} className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-fuchsia-500 transition-all text-white appearance-none" />
+                    <TrendingUp className="absolute right-4 top-3.5 w-4 h-4 text-white/20 pointer-events-none" />
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: 2nd ID Fields */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 mb-4 h-6">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                <h2 className="text-lg font-bold text-emerald-300 uppercase tracking-widest">2nd ID</h2>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
+                  <ShieldCheck className="w-3 h-3" /> 2nd ID App. date
+                </label>
+                <div className="relative group">
+                  <input type="date" value={secondIdJoinDate} onChange={(e) => setSecondIdJoinDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
+                  <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-400/30 pointer-events-none" />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1 flex items-center gap-2">
+                  <TrendingUp className="w-3 h-3" /> 2nd ID last activity date
+                </label>
+                <div className="relative group">
+                  <input type="date" value={secondIdLastActivityDate} onChange={(e) => setSecondIdLastActivityDate(e.target.value)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white appearance-none" />
+                  <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-400/30 pointer-events-none" />
                 </div>
               </div>
 
               <AnimatePresence>
-                {isConversionMode && (
-                  <div className="pt-2">
-                    <label className="text-[10px] font-semibold text-white/50 uppercase tracking-wider ml-1">目標重入位階 (Target Rank)</label>
-                    <div className="relative group mt-2">
-                      <select value={targetRank} onChange={(e) => setTargetRank(e.target.value as Rank)} className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
-                        <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">成為 優惠顧客 (PC)</option>
-                        <option value={Rank.SUPERVISOR} className="bg-slate-900">成為 督導等級 (DS)</option>
-                        <option value={Rank.WORLD_TEAM} className="bg-slate-900">成為 世界組等級 (WT)</option>
-                      </select>
-                      <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 rotate-90 pointer-events-none" />
+                {!isConversionMode && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="space-y-3 overflow-hidden">
+                    <div className="pt-2">
+                      <label className="text-[12px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">2nd ID team</label>
+                      <div className="relative group mt-2">
+                        <select value={secondIdRank} onChange={(e) => setSecondIdRank(e.target.value as Rank)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
+                          <option value={Rank.SUPERVISOR} className="bg-slate-900">督導及以下 (DS)</option>
+                          <option value={Rank.WORLD_TEAM} className="bg-slate-900">世界組及以上 (WT)</option>
+                          <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">優惠顧客 (PC)</option>
+                        </select>
+                        <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400/30 rotate-90 pointer-events-none" />
+                      </div>
                     </div>
-                  </div>
+
+                    <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 mt-4">
+                      <div className="flex flex-col">
+                        <label className="text-[12px] font-bold text-emerald-400/70 uppercase tracking-wider">H&W Realign</label>
+                        <span className="text-[12px] text-emerald-400/50">重新對齊夫妻等候期</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={() => setHwRealign(!hwRealign)}
+                          className={`relative w-10 h-5 rounded-full transition-colors ${hwRealign ? 'bg-emerald-500' : 'bg-black/20'}`}
+                        >
+                          <motion.div animate={{ x: hwRealign ? 20 : 2 }} className="absolute top-1 left-[2px] w-3 h-3 bg-white rounded-full shadow-sm" />
+                        </button>
+                        <span className="text-[12px] font-bold text-emerald-300 w-6">{hwRealign ? 'YES' : 'NO'}</span>
+                      </div>
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
