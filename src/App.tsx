@@ -90,21 +90,23 @@ export default function App() {
     }
 
     if (complianceStatus === 'violation') {
-      if (!isConversionMode && hwRealign && secondIdLastActivityDate) {
-        const id2Activity = parseISO(secondIdLastActivityDate);
-        if (isValid(id2Activity)) {
-          const absoluteLatestActivity = isAfter(id2Activity, latestActivity) ? id2Activity : latestActivity;
-          const hwWait = getWaitConfig(secondIdRank);
-          const extendedDate = hwWait.years
-            ? addYears(absoluteLatestActivity, hwWait.years)
-            : addDays(absoluteLatestActivity, hwWait.days);
-          caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
-        } else {
-          const extendedDate = targetWait.years
-            ? addYears(finalReEntryDate, targetWait.years)
-            : addDays(finalReEntryDate, targetWait.days);
-          caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+      if (!isConversionMode && hwRealign) {
+        let absoluteLatestActivity = latestActivity;
+        if (secondIdLastActivityDate) {
+          const id2Activity = parseISO(secondIdLastActivityDate);
+          if (isValid(id2Activity) && isAfter(id2Activity, latestActivity)) {
+            absoluteLatestActivity = id2Activity;
+          }
         }
+        
+        const hwWait = getWaitConfig(secondIdRank);
+        
+        // H&W Realign violation: base wait from absolute latest activity (added once as per literal instructions "기간是180天, 1年或2年")
+        const extendedDate = hwWait.years
+          ? addYears(absoluteLatestActivity, hwWait.years)
+          : addDays(absoluteLatestActivity, hwWait.days);
+          
+        caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
       } else {
         const extendedDate = targetWait.years
           ? addYears(finalReEntryDate, targetWait.years)
@@ -224,8 +226,8 @@ export default function App() {
                     <label className="text-[10px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">第二個ID目前位階 (ID2 Current Rank)</label>
                     <div className="relative group">
                       <select value={secondIdRank} onChange={(e) => setSecondIdRank(e.target.value as Rank)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
-                        <option value={Rank.SUPERVISOR} className="bg-slate-900">督導 (Supervisor)</option>
-                        <option value={Rank.DISTRIBUTOR} className="bg-slate-900">直銷商 (Distributor)</option>
+                        <option value={Rank.SUPERVISOR} className="bg-slate-900">督導及以下 (DS)</option>
+                        <option value={Rank.WORLD_TEAM} className="bg-slate-900">世界組及以上 (WT)</option>
                         <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">優惠顧客 (PC)</option>
                       </select>
                       <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400/30 rotate-90 pointer-events-none" />
