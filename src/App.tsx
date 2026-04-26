@@ -26,6 +26,8 @@ export default function App() {
   const [lastEarningDate, setLastEarningDate] = useState<string>('');
   const [secondIdJoinDate, setSecondIdJoinDate] = useState<string>('');
   const [secondIdLastActivityDate, setSecondIdLastActivityDate] = useState<string>('');
+  const [secondIdRank, setSecondIdRank] = useState<Rank>(Rank.SUPERVISOR);
+  const [hwRealign, setHwRealign] = useState<boolean>(false);
 
   const getWaitConfig = (rank: Rank) => {
     switch (rank) {
@@ -88,10 +90,27 @@ export default function App() {
     }
 
     if (complianceStatus === 'violation') {
-      const extendedDate = targetWait.years
-        ? addYears(finalReEntryDate, targetWait.years)
-        : addDays(finalReEntryDate, targetWait.days);
-      caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+      if (!isConversionMode && hwRealign && secondIdLastActivityDate) {
+        const id2Activity = parseISO(secondIdLastActivityDate);
+        if (isValid(id2Activity)) {
+          const absoluteLatestActivity = isAfter(id2Activity, latestActivity) ? id2Activity : latestActivity;
+          const hwWait = getWaitConfig(secondIdRank);
+          const extendedDate = hwWait.years
+            ? addYears(absoluteLatestActivity, hwWait.years)
+            : addDays(absoluteLatestActivity, hwWait.days);
+          caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+        } else {
+          const extendedDate = targetWait.years
+            ? addYears(finalReEntryDate, targetWait.years)
+            : addDays(finalReEntryDate, targetWait.days);
+          caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+        }
+      } else {
+        const extendedDate = targetWait.years
+          ? addYears(finalReEntryDate, targetWait.years)
+          : addDays(finalReEntryDate, targetWait.days);
+        caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+      }
     }
 
     return {
@@ -108,7 +127,7 @@ export default function App() {
         ? `系統依據規則採計：(1) 原位階 ${originalRank === Rank.PREFERRED_CUSTOMER ? 'PC' : 'DS'} 自轉換日起算之等候期，與 (2) 目標位階自最後活動日起算之等候期，兩者取較晚者。`
         : `依據 ${effectiveTargetRank === Rank.PREFERRED_CUSTOMER ? '優惠顧客' : '直銷商'} 規則自最後活動日起算等候期。`,
     };
-  }, [apfDueDate, lastOrderDate, lastEarningDate, conversionDate, isConversionMode, originalRank, targetRank, secondIdJoinDate, secondIdLastActivityDate]);
+  }, [apfDueDate, lastOrderDate, lastEarningDate, conversionDate, isConversionMode, originalRank, targetRank, secondIdJoinDate, secondIdLastActivityDate, hwRealign, secondIdRank]);
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-white flex flex-col items-center justify-center relative overflow-hidden font-sans p-4 sm:p-12">
@@ -198,6 +217,38 @@ export default function App() {
                   <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-400/30" />
                 </div>
               </div>
+
+              {!isConversionMode && (
+                <>
+                  <div className="space-y-3 pt-2">
+                    <label className="text-[10px] font-semibold text-emerald-400/70 uppercase tracking-wider ml-1">第二個ID目前位階 (ID2 Current Rank)</label>
+                    <div className="relative group">
+                      <select value={secondIdRank} onChange={(e) => setSecondIdRank(e.target.value as Rank)} className="w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 appearance-none focus:outline-none focus:border-emerald-400 transition-colors text-lg text-white cursor-pointer">
+                        <option value={Rank.SUPERVISOR} className="bg-slate-900">督導 (Supervisor)</option>
+                        <option value={Rank.DISTRIBUTOR} className="bg-slate-900">直銷商 (Distributor)</option>
+                        <option value={Rank.PREFERRED_CUSTOMER} className="bg-slate-900">優惠顧客 (PC)</option>
+                      </select>
+                      <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400/30 rotate-90 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/10 rounded-2xl px-5 py-4 mt-2">
+                    <div className="flex flex-col">
+                      <label className="text-[10px] font-bold text-emerald-400/70 uppercase tracking-wider">H&W Realign</label>
+                      <span className="text-[8px] text-emerald-400/50">重新對齊夫妻等候期</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => setHwRealign(!hwRealign)}
+                        className={`relative w-10 h-5 rounded-full transition-colors ${hwRealign ? 'bg-emerald-500' : 'bg-black/20'}`}
+                      >
+                        <motion.div animate={{ x: hwRealign ? 20 : 2 }} className="absolute top-1 left-[2px] w-3 h-3 bg-white rounded-full shadow-sm" />
+                      </button>
+                      <span className="text-[9px] font-bold text-emerald-300 w-6">{hwRealign ? 'YES' : 'NO'}</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="space-y-6">
@@ -341,6 +392,8 @@ export default function App() {
                 setTargetRank(Rank.PREFERRED_CUSTOMER);
                 setSecondIdJoinDate('');
                 setSecondIdLastActivityDate('');
+                setHwRealign(false);
+                setSecondIdRank(Rank.SUPERVISOR);
               }}
               className="px-8 py-4 bg-white text-slate-900 font-black rounded-2xl hover:bg-white/90 transition-all text-xs uppercase tracking-[0.2em] shadow-lg active:scale-95"
             >
