@@ -315,7 +315,7 @@ export default function App() {
                 <>
                   <div className="space-y-6 w-full">
                     <div className="space-y-2">
-                      <span className="text-[12px] font-bold text-white/40 uppercase tracking-[0.3em]">最終符合重新加入資格日期 (ID1)</span>
+                      <span className="text-[12px] font-bold text-white/40 uppercase tracking-[0.3em]">1st ID原本可重新加入日期</span>
                       <div className="flex items-baseline gap-2 sm:gap-4 flex-wrap justify-center font-mono text-white">
                         <span className="text-5xl sm:text-7xl font-black tracking-tighter">{calculationResult.reEntryDate.split('-')[0]}</span>
                         <span className="text-3xl sm:text-5xl font-light text-white/60">/</span>
