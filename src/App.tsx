@@ -105,8 +105,9 @@ export default function App() {
         const extendedDate = hwWait.years
           ? addYears(absoluteLatestActivity, hwWait.years)
           : addDays(absoluteLatestActivity, hwWait.days);
-          
-        caseClosedReEntryDate = format(extendedDate, 'yyyy-MM-dd');
+
+        const calculationDate = isAfter(extendedDate, finalReEntryDate) ? extendedDate : finalReEntryDate;
+        caseClosedReEntryDate = format(calculationDate, 'yyyy-MM-dd');
       } else {
         const extendedDate = targetWait.years
           ? addYears(finalReEntryDate, targetWait.years)
@@ -144,10 +145,10 @@ export default function App() {
         <div className="flex flex-col gap-8">
           <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent italic">
+              <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent italic">
                 POI Calculator
               </h1>
-              <p className="text-white/40 text-[12px] tracking-widest uppercase font-medium">POI Calculator</p>
+              <p className="text-white/40 text-[14px] tracking-widest uppercase font-medium">所有計算方式統一以1st ID最後業務行為+其位階的POI時間計算</p>
             </div>
           </header>
 
@@ -315,7 +316,7 @@ export default function App() {
                 <>
                   <div className="space-y-6 w-full">
                     <div className="space-y-2">
-                      <span className="text-[12px] font-bold text-white/40 uppercase tracking-[0.3em]">1st ID原本可重新加入日期</span>
+                      <span className="text-[15px] font-bold text-white/40 uppercase tracking-[0.3em]">1st ID原本可重新加入日期</span>
                       <div className="flex items-baseline gap-2 sm:gap-4 flex-wrap justify-center font-mono text-white">
                         <span className="text-5xl sm:text-7xl font-black tracking-tighter">{calculationResult.reEntryDate.split('-')[0]}</span>
                         <span className="text-3xl sm:text-5xl font-light text-white/60">/</span>
